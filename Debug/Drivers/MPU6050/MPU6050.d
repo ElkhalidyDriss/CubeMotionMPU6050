@@ -1,0 +1,1 @@
+Drivers/MPU6050/MPU6050.o: ../Drivers/MPU6050/MPU6050.c
