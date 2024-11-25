@@ -49,7 +49,7 @@ extern I2C_HandleTypeDef I2C3_HandleStruct;
 #define WHO_AM_I          0x75
 #define ACCEL_XOUT_H      0x3B
 #define ACCEL_XOUT_L      0x3C
-
+#define GYRO_XOUT_H       0x43
 #define MPU6050_I2C_ADDR 0b1101000
 #define MPU_6050_WRITE_FLAG 0
 #define MPU_6050_READ_FLAG  (1 << 0)
@@ -152,6 +152,7 @@ MPU6050_Status_e mpu6050_init(mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_raw_data(mpu6050_raw_data_t *mpu6050_raw_data , mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_scaled_data(mpu6050_data_t *mpu6050_data , mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_sensitivity(mpu6050_sensitivity_t *mpu6050_sensitivity);
+MPU6050_Status_e mpu6050_get_data(uint8_t *data );
 
 
 #endif /* MPU6050_MPU6050_H_ */

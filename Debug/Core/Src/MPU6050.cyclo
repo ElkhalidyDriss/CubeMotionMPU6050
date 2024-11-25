@@ -1,0 +1,14 @@
+../Core/Src/MPU6050.c:6:13:i2c_init	1
+../Core/Src/MPU6050.c:24:13:gpio_init	1
+../Core/Src/MPU6050.c:39:26:mpu6050_write_reg	2
+../Core/Src/MPU6050.c:47:25:mpu6050_read_reg	2
+../Core/Src/MPU6050.c:54:13:mpu6050_set_sensitivity	9
+../Core/Src/MPU6050.c:86:13:mpu6050_calibrate	2
+../Core/Src/MPU6050.c:112:19:mpu6050_get_raw_data	1
+../Core/Src/MPU6050.c:127:19:mpu6050_get_data	3
+../Core/Src/MPU6050.c:138:6:mpu6050_setSampleRateDiv	1
+../Core/Src/MPU6050.c:142:6:mpu6050_setFilterBandWidth	1
+../Core/Src/MPU6050.c:146:6:mpu6050_gyroFSConfig	1
+../Core/Src/MPU6050.c:150:6:mpu6050_accFSConfig	1
+../Core/Src/MPU6050.c:154:18:mpu6050_init	2
+../Core/Src/MPU6050.c:231:18:mpu6050_get_scaled_data	2
