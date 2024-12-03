@@ -124,7 +124,7 @@ static void mpu6050_calibrate(mpu6050_config_t *mpu6050_config)
 	mpu6050_raw_data -> gyro_z_raw = (int16_t)((raw_data[12] << 8) | (raw_data[13])) - mpu6050_config -> gyro_z_offset;
 	return status;
 }
- MPU6050_Status_e mpu6050_get_data(uint8_t *data){
+ MPU6050_Status_e mpu6050_get_raw_data_array(uint8_t *data){
 		if( mpu6050_read_reg(ACCEL_XOUT_H, &data[0],6) != MPU6050_OK)/*Reading registers from the base address ACCEL_XOUT_H(0x3B) -> GYRO_ZOUT(0x48)*/
 		{
 			return MPU6050_ERROR;

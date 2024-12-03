@@ -5,7 +5,7 @@
 ../Core/Src/MPU6050.c:54:13:mpu6050_set_sensitivity	9
 ../Core/Src/MPU6050.c:86:13:mpu6050_calibrate	2
 ../Core/Src/MPU6050.c:112:19:mpu6050_get_raw_data	1
-../Core/Src/MPU6050.c:127:19:mpu6050_get_data	3
+../Core/Src/MPU6050.c:127:19:mpu6050_get_raw_data_array	3
 ../Core/Src/MPU6050.c:138:6:mpu6050_setSampleRateDiv	1
 ../Core/Src/MPU6050.c:142:6:mpu6050_setFilterBandWidth	1
 ../Core/Src/MPU6050.c:146:6:mpu6050_gyroFSConfig	1

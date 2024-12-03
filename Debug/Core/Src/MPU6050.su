@@ -5,7 +5,7 @@
 ../Core/Src/MPU6050.c:54:13:mpu6050_set_sensitivity	16	static
 ../Core/Src/MPU6050.c:86:13:mpu6050_calibrate	48	static
 ../Core/Src/MPU6050.c:112:19:mpu6050_get_raw_data	32	static
-../Core/Src/MPU6050.c:127:19:mpu6050_get_data	16	static
+../Core/Src/MPU6050.c:127:19:mpu6050_get_raw_data_array	16	static
 ../Core/Src/MPU6050.c:138:6:mpu6050_setSampleRateDiv	16	static
 ../Core/Src/MPU6050.c:142:6:mpu6050_setFilterBandWidth	16	static
 ../Core/Src/MPU6050.c:146:6:mpu6050_gyroFSConfig	16	static

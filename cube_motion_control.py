@@ -105,13 +105,14 @@ def read_data():
     global ax, ay, az
     ax = ay = az = 0.0
     line_done = 0
-    if ser.in_waiting >= 12:  # Ensure there are at least 6 bytes (3 angles * 2 bytes each)
+    if ser.in_waiting >= 12:
         data = ser.read(12)
-        ax, ay, az , gx , gy , gz = struct.unpack('<', data)
+        print(data)
+      """  ax, ay, az , gx , gy , gz = struct.unpack('<', data)
         sensitivity = float(70)
         ax = float(x)*sensitivity
         ay = float(y)*sensitivity
-        az = float(z)*sensitivity 
+        az = float(z)*sensitivity """
 
 def main():
     global yaw_mode

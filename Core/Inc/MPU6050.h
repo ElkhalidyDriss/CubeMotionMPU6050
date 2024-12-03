@@ -152,7 +152,6 @@ MPU6050_Status_e mpu6050_init(mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_raw_data(mpu6050_raw_data_t *mpu6050_raw_data , mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_scaled_data(mpu6050_data_t *mpu6050_data , mpu6050_config_t *mpu6050_config);
 MPU6050_Status_e mpu6050_get_sensitivity(mpu6050_sensitivity_t *mpu6050_sensitivity);
-MPU6050_Status_e mpu6050_get_data(uint8_t *data );
-
+MPU6050_Status_e mpu6050_get_raw_data_array(uint8_t *data);
 
 #endif /* MPU6050_MPU6050_H_ */

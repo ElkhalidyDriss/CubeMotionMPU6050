@@ -12,7 +12,7 @@ UART_HandleTypeDef huart1;
 
 mpu6050_raw_data_t mpu6050_raw_data;
 mpu6050_config_t mpu6050_config;
-uint8_t data[14];
+uint8_t data[12];
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_CRC_Init(void);
@@ -47,9 +47,8 @@ int main(void)
 
   while (1)
   {
-	  //mpu6050_get_raw_data(&mpu6050_raw_data , &mpu6050_config);
-	  mpu6050_get_data(data);
-	  HAL_UART_Transmit(&huart1,data,sizeof(data),100);
+	  mpu6050_get_raw_data_array(data);
+	  HAL_UART_Transmit(&huart1,data,sizeof(data),100);//sending 12 bytes of data to the computer
 	  HAL_Delay(100);
   }
 

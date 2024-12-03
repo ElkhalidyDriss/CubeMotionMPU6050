@@ -23,31 +23,31 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   9 .ccmram       00000000  10000000  10000000  00007068  2**0
                   CONTENTS
- 10 .bss          000002dc  20000068  20000068  00007068  2**2
+ 10 .bss          000002d8  20000068  20000068  00007068  2**2
                   ALLOC
- 11 ._user_heap_stack 00000604  20000344  20000344  00007068  2**0
+ 11 ._user_heap_stack 00000600  20000340  20000340  00007068  2**0
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00007068  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00010a78  00000000  00000000  00007098  2**0
+ 13 .debug_info   00010a73  00000000  00000000  00007098  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000022de  00000000  00000000  00017b10  2**0
+ 14 .debug_abbrev 000022c7  00000000  00000000  00017b0b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00001028  00000000  00000000  00019df0  2**3
+ 15 .debug_aranges 00001028  00000000  00000000  00019dd8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000cb8  00000000  00000000  0001ae18  2**0
+ 16 .debug_rnglists 00000cb8  00000000  00000000  0001ae00  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000257b5  00000000  00000000  0001bad0  2**0
+ 17 .debug_macro  000257b5  00000000  00000000  0001bab8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00012f59  00000000  00000000  00041285  2**0
+ 18 .debug_line   00012f59  00000000  00000000  0004126d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000dfe12  00000000  00000000  000541de  2**0
+ 19 .debug_str    000dfe1c  00000000  00000000  000541c6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00133ff0  2**0
+ 20 .comment      00000043  00000000  00000000  00133fe2  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00004c3c  00000000  00000000  00134034  2**2
+ 21 .debug_frame  00004c3c  00000000  00000000  00134028  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000066  00000000  00000000  00138c70  2**0
+ 22 .debug_line_str 00000066  00000000  00000000  00138c64  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1007,8 +1007,8 @@ static void mpu6050_calibrate(mpu6050_config_t *mpu6050_config)
  80009b0:	46bd      	mov	sp, r7
  80009b2:	bd80      	pop	{r7, pc}
 
-080009b4 <mpu6050_get_data>:
- MPU6050_Status_e mpu6050_get_data(uint8_t *data){
+080009b4 <mpu6050_get_raw_data_array>:
+ MPU6050_Status_e mpu6050_get_raw_data_array(uint8_t *data){
  80009b4:	b580      	push	{r7, lr}
  80009b6:	b082      	sub	sp, #8
  80009b8:	af00      	add	r7, sp, #0
@@ -1020,11 +1020,11 @@ static void mpu6050_calibrate(mpu6050_config_t *mpu6050_config)
  80009c2:	f7ff fe85 	bl	80006d0 <mpu6050_read_reg>
  80009c6:	4603      	mov	r3, r0
  80009c8:	2b00      	cmp	r3, #0
- 80009ca:	d001      	beq.n	80009d0 <mpu6050_get_data+0x1c>
+ 80009ca:	d001      	beq.n	80009d0 <mpu6050_get_raw_data_array+0x1c>
 		{
 			return MPU6050_ERROR;
  80009cc:	2301      	movs	r3, #1
- 80009ce:	e00c      	b.n	80009ea <mpu6050_get_data+0x36>
+ 80009ce:	e00c      	b.n	80009ea <mpu6050_get_raw_data_array+0x36>
 		}
 		if (mpu6050_read_reg(GYRO_XOUT_H , &data[6],6) != MPU6050_OK)
  80009d0:	687b      	ldr	r3, [r7, #4]
@@ -1035,11 +1035,11 @@ static void mpu6050_calibrate(mpu6050_config_t *mpu6050_config)
  80009da:	f7ff fe79 	bl	80006d0 <mpu6050_read_reg>
  80009de:	4603      	mov	r3, r0
  80009e0:	2b00      	cmp	r3, #0
- 80009e2:	d001      	beq.n	80009e8 <mpu6050_get_data+0x34>
+ 80009e2:	d001      	beq.n	80009e8 <mpu6050_get_raw_data_array+0x34>
 		{
 			return MPU6050_ERROR;
  80009e4:	2301      	movs	r3, #1
- 80009e6:	e000      	b.n	80009ea <mpu6050_get_data+0x36>
+ 80009e6:	e000      	b.n	80009ea <mpu6050_get_raw_data_array+0x36>
 		}
 		return MPU6050_OK;
  80009e8:	2300      	movs	r3, #0
@@ -1301,20 +1301,19 @@ int main(void)
 
   while (1)
   {
-	  //mpu6050_get_raw_data(&mpu6050_raw_data , &mpu6050_config);
-	  mpu6050_get_data(data);
+	  mpu6050_get_raw_data_array(data);
  8000b5c:	4809      	ldr	r0, [pc, #36]	@ (8000b84 <main+0x80>)
- 8000b5e:	f7ff ff29 	bl	80009b4 <mpu6050_get_data>
-	  HAL_UART_Transmit(&huart1,data,sizeof(data),100);
+ 8000b5e:	f7ff ff29 	bl	80009b4 <mpu6050_get_raw_data_array>
+	  HAL_UART_Transmit(&huart1,data,sizeof(data),100);//sending 12 bytes of data to the computer
  8000b62:	2364      	movs	r3, #100	@ 0x64
- 8000b64:	220e      	movs	r2, #14
+ 8000b64:	220c      	movs	r2, #12
  8000b66:	4907      	ldr	r1, [pc, #28]	@ (8000b84 <main+0x80>)
  8000b68:	4807      	ldr	r0, [pc, #28]	@ (8000b88 <main+0x84>)
  8000b6a:	f003 f96d 	bl	8003e48 <HAL_UART_Transmit>
 	  HAL_Delay(100);
  8000b6e:	2064      	movs	r0, #100	@ 0x64
  8000b70:	f000 fe1e 	bl	80017b0 <HAL_Delay>
-	  mpu6050_get_data(data);
+	  mpu6050_get_raw_data_array(data);
  8000b74:	bf00      	nop
  8000b76:	e7f1      	b.n	8000b5c <main+0x58>
  8000b78:	200001c4 	.word	0x200001c4
@@ -3291,8 +3290,8 @@ void *_sbrk(ptrdiff_t incr)
  8001642:	bd80      	pop	{r7, pc}
  8001644:	20030000 	.word	0x20030000
  8001648:	00000400 	.word	0x00000400
- 800164c:	200001f0 	.word	0x200001f0
- 8001650:	20000348 	.word	0x20000348
+ 800164c:	200001ec 	.word	0x200001ec
+ 8001650:	20000340 	.word	0x20000340
 
 08001654 <SystemInit>:
   *         configuration.
@@ -3414,7 +3413,7 @@ LoopFillZerobss:
   ldr r2, =_sbss
  80016c0:	20000068 	.word	0x20000068
   ldr r4, =_ebss
- 80016c4:	20000344 	.word	0x20000344
+ 80016c4:	20000340 	.word	0x20000340
 
 080016c8 <ADC_IRQHandler>:
  * @retval None       
@@ -3577,7 +3576,7 @@ __weak void HAL_IncTick(void)
  800178c:	4770      	bx	lr
  800178e:	bf00      	nop
  8001790:	20000008 	.word	0x20000008
- 8001794:	200001f4 	.word	0x200001f4
+ 8001794:	200001f0 	.word	0x200001f0
 
 08001798 <HAL_GetTick>:
   * @note This function is declared as __weak to be overwritten in case of other 
@@ -3597,7 +3596,7 @@ __weak uint32_t HAL_GetTick(void)
  80017a4:	f85d 7b04 	ldr.w	r7, [sp], #4
  80017a8:	4770      	bx	lr
  80017aa:	bf00      	nop
- 80017ac:	200001f4 	.word	0x200001f4
+ 80017ac:	200001f0 	.word	0x200001f0
 
 080017b0 <HAL_Delay>:
   *       implementations in user file.
@@ -11229,7 +11228,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800461c:	0800478b 	.word	0x0800478b
  8004620:	080047c3 	.word	0x080047c3
  8004624:	080047e7 	.word	0x080047e7
- 8004628:	200001f8 	.word	0x200001f8
+ 8004628:	200001f4 	.word	0x200001f4
 
 0800462c <stdio_exit_handler>:
  800462c:	4a02      	ldr	r2, [pc, #8]	@ (8004638 <stdio_exit_handler+0xc>)
@@ -11264,9 +11263,9 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8004670:	f000 bd86 	b.w	8005180 <_fflush_r>
  8004674:	bd10      	pop	{r4, pc}
  8004676:	bf00      	nop
- 8004678:	200001f8 	.word	0x200001f8
- 800467c:	20000260 	.word	0x20000260
- 8004680:	200002c8 	.word	0x200002c8
+ 8004678:	200001f4 	.word	0x200001f4
+ 800467c:	2000025c 	.word	0x2000025c
+ 8004680:	200002c4 	.word	0x200002c4
 
 08004684 <global_stdio_init.part.0>:
  8004684:	b510      	push	{r4, lr}
@@ -11287,21 +11286,21 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80046aa:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  80046ae:	2112      	movs	r1, #18
  80046b0:	f7ff bf86 	b.w	80045c0 <std>
- 80046b4:	20000330 	.word	0x20000330
- 80046b8:	200001f8 	.word	0x200001f8
+ 80046b4:	2000032c 	.word	0x2000032c
+ 80046b8:	200001f4 	.word	0x200001f4
  80046bc:	0800462d 	.word	0x0800462d
 
 080046c0 <__sfp_lock_acquire>:
  80046c0:	4801      	ldr	r0, [pc, #4]	@ (80046c8 <__sfp_lock_acquire+0x8>)
  80046c2:	f000 b90e 	b.w	80048e2 <__retarget_lock_acquire_recursive>
  80046c6:	bf00      	nop
- 80046c8:	20000339 	.word	0x20000339
+ 80046c8:	20000335 	.word	0x20000335
 
 080046cc <__sfp_lock_release>:
  80046cc:	4801      	ldr	r0, [pc, #4]	@ (80046d4 <__sfp_lock_release+0x8>)
  80046ce:	f000 b909 	b.w	80048e4 <__retarget_lock_release_recursive>
  80046d2:	bf00      	nop
- 80046d4:	20000339 	.word	0x20000339
+ 80046d4:	20000335 	.word	0x20000335
 
 080046d8 <__sinit>:
  80046d8:	b510      	push	{r4, lr}
@@ -11321,7 +11320,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80046fc:	e7f2      	b.n	80046e4 <__sinit+0xc>
  80046fe:	bf00      	nop
  8004700:	08004645 	.word	0x08004645
- 8004704:	20000330 	.word	0x20000330
+ 8004704:	2000032c 	.word	0x2000032c
 
 08004708 <_fwalk_sglue>:
  8004708:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -11449,7 +11448,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8004816:	b103      	cbz	r3, 800481a <_close_r+0x1a>
  8004818:	6023      	str	r3, [r4, #0]
  800481a:	bd38      	pop	{r3, r4, r5, pc}
- 800481c:	20000334 	.word	0x20000334
+ 800481c:	20000330 	.word	0x20000330
 
 08004820 <_lseek_r>:
  8004820:	b538      	push	{r3, r4, r5, lr}
@@ -11467,7 +11466,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800483a:	b103      	cbz	r3, 800483e <_lseek_r+0x1e>
  800483c:	6023      	str	r3, [r4, #0]
  800483e:	bd38      	pop	{r3, r4, r5, pc}
- 8004840:	20000334 	.word	0x20000334
+ 8004840:	20000330 	.word	0x20000330
 
 08004844 <_read_r>:
  8004844:	b538      	push	{r3, r4, r5, lr}
@@ -11485,7 +11484,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800485e:	b103      	cbz	r3, 8004862 <_read_r+0x1e>
  8004860:	6023      	str	r3, [r4, #0]
  8004862:	bd38      	pop	{r3, r4, r5, pc}
- 8004864:	20000334 	.word	0x20000334
+ 8004864:	20000330 	.word	0x20000330
 
 08004868 <_write_r>:
  8004868:	b538      	push	{r3, r4, r5, lr}
@@ -11503,7 +11502,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8004882:	b103      	cbz	r3, 8004886 <_write_r+0x1e>
  8004884:	6023      	str	r3, [r4, #0]
  8004886:	bd38      	pop	{r3, r4, r5, pc}
- 8004888:	20000334 	.word	0x20000334
+ 8004888:	20000330 	.word	0x20000330
 
 0800488c <__errno>:
  800488c:	4b01      	ldr	r3, [pc, #4]	@ (8004894 <__errno+0x8>)
@@ -11622,7 +11621,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8004972:	e7ca      	b.n	800490a <_free_r+0x22>
  8004974:	bd38      	pop	{r3, r4, r5, pc}
  8004976:	bf00      	nop
- 8004978:	20000340 	.word	0x20000340
+ 8004978:	2000033c 	.word	0x2000033c
 
 0800497c <sbrk_aligned>:
  800497c:	b570      	push	{r4, r5, r6, lr}
@@ -11652,7 +11651,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80049b6:	d1f2      	bne.n	800499e <sbrk_aligned+0x22>
  80049b8:	e7ef      	b.n	800499a <sbrk_aligned+0x1e>
  80049ba:	bf00      	nop
- 80049bc:	2000033c 	.word	0x2000033c
+ 80049bc:	20000338 	.word	0x20000338
 
 080049c0 <_malloc_r>:
  80049c0:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -11762,19 +11761,19 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8004ab6:	6005      	str	r5, [r0, #0]
  8004ab8:	e7d6      	b.n	8004a68 <_malloc_r+0xa8>
  8004aba:	bf00      	nop
- 8004abc:	20000340 	.word	0x20000340
+ 8004abc:	2000033c 	.word	0x2000033c
 
 08004ac0 <__malloc_lock>:
  8004ac0:	4801      	ldr	r0, [pc, #4]	@ (8004ac8 <__malloc_lock+0x8>)
  8004ac2:	f7ff bf0e 	b.w	80048e2 <__retarget_lock_acquire_recursive>
  8004ac6:	bf00      	nop
- 8004ac8:	20000338 	.word	0x20000338
+ 8004ac8:	20000334 	.word	0x20000334
 
 08004acc <__malloc_unlock>:
  8004acc:	4801      	ldr	r0, [pc, #4]	@ (8004ad4 <__malloc_unlock+0x8>)
  8004ace:	f7ff bf09 	b.w	80048e4 <__retarget_lock_release_recursive>
  8004ad2:	bf00      	nop
- 8004ad4:	20000338 	.word	0x20000338
+ 8004ad4:	20000334 	.word	0x20000334
 
 08004ad8 <__sfputc_r>:
  8004ad8:	6893      	ldr	r3, [r2, #8]
@@ -12681,7 +12680,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  800530e:	b103      	cbz	r3, 8005312 <_sbrk_r+0x1a>
  8005310:	6023      	str	r3, [r4, #0]
  8005312:	bd38      	pop	{r3, r4, r5, pc}
- 8005314:	20000334 	.word	0x20000334
+ 8005314:	20000330 	.word	0x20000330
 
 08005318 <__swhatbuf_r>:
  8005318:	b570      	push	{r4, r5, r6, lr}
@@ -12781,7 +12780,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  80053f6:	6023      	str	r3, [r4, #0]
  80053f8:	bd38      	pop	{r3, r4, r5, pc}
  80053fa:	bf00      	nop
- 80053fc:	20000334 	.word	0x20000334
+ 80053fc:	20000330 	.word	0x20000330
 
 08005400 <_isatty_r>:
  8005400:	b538      	push	{r3, r4, r5, lr}
@@ -12797,7 +12796,7 @@ static void UART_SetConfig(UART_HandleTypeDef *huart)
  8005416:	b103      	cbz	r3, 800541a <_isatty_r+0x1a>
  8005418:	6023      	str	r3, [r4, #0]
  800541a:	bd38      	pop	{r3, r4, r5, pc}
- 800541c:	20000334 	.word	0x20000334
+ 800541c:	20000330 	.word	0x20000330
 
 08005420 <_init>:
  8005420:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
